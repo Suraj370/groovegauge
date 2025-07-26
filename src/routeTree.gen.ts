@@ -9,9 +9,39 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as LogoutRouteImport } from './routes/logout'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as JoinRoomRouteImport } from './routes/joinRoom'
+import { Route as _authedRouteImport } from './routes/__authed'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RoomIdRouteImport } from './routes/room.$id'
+import { Route as _authedCreateRoomRouteImport } from './routes/__authed/createRoom'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogoutRoute = LogoutRouteImport.update({
+  id: '/logout',
+  path: '/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinRoomRoute = JoinRoomRouteImport.update({
+  id: '/joinRoom',
+  path: '/joinRoom',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const _authedRoute = _authedRouteImport.update({
+  id: '/__authed',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -22,35 +52,119 @@ const RoomIdRoute = RoomIdRouteImport.update({
   path: '/room/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const _authedCreateRoomRoute = _authedCreateRoomRouteImport.update({
+  id: '/createRoom',
+  path: '/createRoom',
+  getParentRoute: () => _authedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/joinRoom': typeof JoinRoomRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/signup': typeof SignupRoute
+  '/createRoom': typeof _authedCreateRoomRoute
   '/room/$id': typeof RoomIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/joinRoom': typeof JoinRoomRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/signup': typeof SignupRoute
+  '/createRoom': typeof _authedCreateRoomRoute
   '/room/$id': typeof RoomIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/__authed': typeof _authedRouteWithChildren
+  '/joinRoom': typeof JoinRoomRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
+  '/signup': typeof SignupRoute
+  '/__authed/createRoom': typeof _authedCreateRoomRoute
   '/room/$id': typeof RoomIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/room/$id'
+  fullPaths:
+    | '/'
+    | '/joinRoom'
+    | '/login'
+    | '/logout'
+    | '/signup'
+    | '/createRoom'
+    | '/room/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/room/$id'
-  id: '__root__' | '/' | '/room/$id'
+  to:
+    | '/'
+    | '/joinRoom'
+    | '/login'
+    | '/logout'
+    | '/signup'
+    | '/createRoom'
+    | '/room/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/__authed'
+    | '/joinRoom'
+    | '/login'
+    | '/logout'
+    | '/signup'
+    | '/__authed/createRoom'
+    | '/room/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  _authedRoute: typeof _authedRouteWithChildren
+  JoinRoomRoute: typeof JoinRoomRoute
+  LoginRoute: typeof LoginRoute
+  LogoutRoute: typeof LogoutRoute
+  SignupRoute: typeof SignupRoute
   RoomIdRoute: typeof RoomIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/joinRoom': {
+      id: '/joinRoom'
+      path: '/joinRoom'
+      fullPath: '/joinRoom'
+      preLoaderRoute: typeof JoinRoomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/__authed': {
+      id: '/__authed'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof _authedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -65,11 +179,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoomIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/__authed/createRoom': {
+      id: '/__authed/createRoom'
+      path: '/createRoom'
+      fullPath: '/createRoom'
+      preLoaderRoute: typeof _authedCreateRoomRouteImport
+      parentRoute: typeof _authedRoute
+    }
   }
 }
 
+interface _authedRouteChildren {
+  _authedCreateRoomRoute: typeof _authedCreateRoomRoute
+}
+
+const _authedRouteChildren: _authedRouteChildren = {
+  _authedCreateRoomRoute: _authedCreateRoomRoute,
+}
+
+const _authedRouteWithChildren =
+  _authedRoute._addFileChildren(_authedRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  _authedRoute: _authedRouteWithChildren,
+  JoinRoomRoute: JoinRoomRoute,
+  LoginRoute: LoginRoute,
+  LogoutRoute: LogoutRoute,
+  SignupRoute: SignupRoute,
   RoomIdRoute: RoomIdRoute,
 }
 export const routeTree = rootRouteImport

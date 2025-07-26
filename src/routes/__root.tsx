@@ -13,12 +13,35 @@ import TanStackQueryLayout from '../integrations/tanstack-query/layout.tsx'
 import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
+import { createServerFn} from '@tanstack/react-start'
+import { getSupabaseServerClient } from '@/utils/supabase.ts'
 
 interface MyRouterContext {
   queryClient: QueryClient
 }
+const fetchUser = createServerFn({ method: 'GET' }).handler(async () => {
+  const supabase = getSupabaseServerClient()
+  const { data, error: _error } = await supabase.auth.getUser()
+
+  
+
+  if (!data.user?.email) {
+    return null
+  }
+
+  return {
+    email: data.user.email,
+  }
+})
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+   beforeLoad: async () => {
+    const user = await fetchUser()
+
+    return {
+      user,
+    }
+  },
   head: () => ({
     meta: [
       {
