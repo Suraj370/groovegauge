@@ -1,30 +1,22 @@
-import { Link, useRouter } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
+import { useServerFn } from '@tanstack/react-start'
 import { useMutation } from '../hooks/useMutation'
-import { loginFn } from '../routes/__authed'
+import { signupFn } from '../routes/signup'
 import { Music } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from 'react'
 import { Label } from './ui/label'
-import { toast } from 'sonner';
-export function Login() {
+import { toast } from 'sonner'
+
+export function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter()
-
-  const loginMutation = useMutation({
-    fn: loginFn,
-    onSuccess: async (ctx) => {
-      if (!ctx.data?.error) {
-        toast("Success", {
-          description: "You have successfully logged in",
-        })
-        await router.invalidate()
-        router.navigate({ to: '/' })
-      }
-    },
-    
+  const [confirmPassword, setConfirmPassword] = useState("");
+ 
+  const signupMutation = useMutation({
+    fn: useServerFn(signupFn),
     
   })
 
@@ -32,8 +24,18 @@ export function Login() {
 
     const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if(password !== confirmPassword) {
+      toast("Error", {
+      description: "Please make sure your passwords match",
+    })
+      return;
+    }
+  
 
-    loginMutation.mutate({
+   
+
+
+    signupMutation.mutate({
           data: {
             email,
             password,
@@ -50,14 +52,14 @@ export function Login() {
             <Music className="w-8 h-8" />
             MusicSync
           </Link>
-          <p className="text-muted-foreground">Welcome back to the collaborative music experience</p>
+          <p className="text-muted-foreground">Join the collaborative music experience</p>
         </div>
 
         <Card className="border-music-primary/20">
           <CardHeader className="text-center">
-            <CardTitle>Sign In</CardTitle>
+            <CardTitle>Sign up</CardTitle>
             <CardDescription>
-              Enter your credentials to access your account
+              Signup to start creating and sharing playlists
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -84,26 +86,37 @@ export function Login() {
                   required
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm Password</Label>
+                <Input 
+                  id="confirm-password" 
+                  type="password" 
+                  placeholder="Confirm your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
               <Button 
                 type="submit" 
                 className="w-full" 
                 variant="secondary"
-                disabled={loginMutation.status == 'pending'}
+                disabled={signupMutation.status == 'pending'}
               >
-                {loginMutation.status == 'pending' ? "Signing in..." : "Sign In"}
+                {signupMutation.status == 'pending' ? "Signing up..." : "Sign Up"}
               </Button>
             </form>
-            { loginMutation.data?.error && (
-              <p className="text-red-500 text-sm mt-2">{loginMutation.data.message}</p>
+            { signupMutation.data?.error && (
+              <p className="text-red-500 text-sm mt-2">{signupMutation.data.message}</p>
             )}
           </CardContent>
         </Card>
 
         <div className="text-center space-y-2">
           <p className="text-sm text-muted-foreground">
-            Don't have an account?{" "}
+           Have an account?{" "}
             <Link 
-              to="/signup" 
+              to="/login" 
               className="text-music-primary hover:text-music-secondary transition-colors font-medium"
             >
               Sign up

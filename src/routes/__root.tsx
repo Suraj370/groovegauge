@@ -15,6 +15,7 @@ import appCss from '../styles.css?url'
 import type { QueryClient } from '@tanstack/react-query'
 import { createServerFn} from '@tanstack/react-start'
 import { getSupabaseServerClient } from '@/utils/supabase.ts'
+import { Toaster } from "@/components/ui/sonner"
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -68,6 +69,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       <Header />
 
       <Outlet />
+      <Toaster />
       <TanStackRouterDevtools />
 
       <TanStackQueryLayout />
