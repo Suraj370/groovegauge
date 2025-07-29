@@ -11,7 +11,7 @@ const Footer = () => {
               <div className="p-2 rounded-lg bg-primary">
                 <Music className="h-6 w-6 text-foreground" />
               </div>
-              <span className="text-xl font-bold text-foreground">MusicRoom</span>
+              <span className="text-xl font-bold text-foreground">MusicSync</span>
             </div>
             <p className="text-muted-foreground mb-4 max-w-md">
               Bringing people together through music. Create collaborative playlists 

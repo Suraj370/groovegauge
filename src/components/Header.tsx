@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { Music } from "lucide-react";
 
 const Header = () => {
@@ -9,7 +10,7 @@ const Header = () => {
           <div className="p-2 rounded-lg bg-gradient-primary">
             <Music className="h-6 w-6 text-foreground" />
           </div>
-          <span className="text-xl font-bold text-foreground">MusicRoom</span>
+          <span className="text-xl font-bold text-foreground">MusicSync</span>
         </div>
         
         <nav className="hidden md:flex items-center gap-6">
@@ -22,11 +23,11 @@ const Header = () => {
         </nav>
         
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm">
-            Sign In
+          <Button asChild variant="ghost" size="sm">
+           <Link to="/login">Sign In</Link>
           </Button>
-          <Button variant= "hero" size="sm">
-            Get Started
+          <Button asChild variant= "hero" size="sm">
+            <Link to="/signup">Get Started</Link>
           </Button>
         </div>
       </div>

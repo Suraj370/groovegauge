@@ -14,7 +14,7 @@ import appCss from '../styles.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
 import { createServerFn} from '@tanstack/react-start'
-import { getSupabaseServerClient } from '@/utils/supabase.ts'
+import { getSupabaseServerClient } from '@/integrations/supabase/supabase.ts'
 import { Toaster } from "@/components/ui/sonner"
 
 interface MyRouterContext {
@@ -53,7 +53,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'MusicSync - Collaborative Music Experience',
       },
     ],
     links: [

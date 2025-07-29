@@ -1,7 +1,7 @@
 import { redirect, createFileRoute } from '@tanstack/react-router'
 import { createServerFn, useServerFn } from '@tanstack/react-start'
 import { useMutation } from '../hooks/useMutation'
-import { getSupabaseServerClient } from '../utils/supabase'
+import { getSupabaseServerClient } from '../integrations/supabase/supabase'
 import { Signup } from '@/components/Signup'
 import { toast } from 'sonner'
 
