@@ -27,6 +27,9 @@ function RouteComponent() {
         })
       }
     },
+    onError: (error) => {
+      toast.error(error.message || "Failed to create room");
+    },
   })
 
   const handleSubmit = (e: React.FormEvent) => {

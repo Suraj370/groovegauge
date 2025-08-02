@@ -26,10 +26,11 @@ export const createRoom = createServerFn({
       .single();
 
     if (error) {
-      return {
-        error: true,
-        message: error.message,
-      };
+      throw new Error(`Database error: ${error.message}`);
+    }
+
+    if (!room) {
+      throw new Error("Room not found or invalid code");
     }
 
     return room;
